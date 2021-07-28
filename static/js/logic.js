@@ -29,3 +29,16 @@
     id: "satellite-v9",
     accessToken: API_KEY
   });
+
+// Defined a baseMaps object and setup default map
+var baseMaps = {
+    "Street Map": streetmap,
+    "Dark Map": darkmap,
+    "Satelite Map": satellitemap
+  };
+  
+var myMap = L.map("map", {
+    center: [ 37.09, -95.71 ],
+    zoom: 5,
+    layers: [streetmap]     
+    });
