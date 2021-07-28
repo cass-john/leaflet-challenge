@@ -30,7 +30,7 @@
     accessToken: API_KEY
   });
 
-// Defined a baseMaps object and setup default map
+// Define a baseMaps object and setup default map
 var baseMaps = {
     "Street Map": streetmap,
     "Dark Map": darkmap,
@@ -42,3 +42,10 @@ var myMap = L.map("map", {
     zoom: 5,
     layers: [streetmap]     
     });
+
+//  add street map to myMap
+streetmap.addTo(myMap);
+
+// create earthquakes & faultlines layers
+var earthquakes = new L.LayerGroup();
+var faultlines = new L.LayerGroup();
