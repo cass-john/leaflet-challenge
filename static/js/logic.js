@@ -7,7 +7,7 @@
   }
 
  // Define streetmap and darkmap layers, these are coming from mapbox
- var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+ var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
     tileSize: 512,
     maxZoom: 18,
@@ -49,3 +49,20 @@ streetmap.addTo(myMap);
 // create earthquakes & faultlines layers
 var earthquakes = new L.LayerGroup();
 var faultlines = new L.LayerGroup();
+
+// Create overlay object
+var overlayMaps = {
+    Earthquakes: earthquakes,
+    "Fault lines ": faultlines
+  };
+
+// Create a layer control
+// Pass in our baseMaps and overlayMaps
+// Set collapsed to false to show options in layer control
+L.control.layers(baseMaps, overlayMaps, {
+    collapsed: false
+  }).addTo(myMap);
+  
+// bring in our data
+var queryUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=" +
+  "2014-01-02&maxlongitude=-69.52148437&minlongitude=-123.83789062&maxlatitude=48.74894534&minlatitude=25.16517337";  
