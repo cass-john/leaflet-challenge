@@ -131,18 +131,20 @@ legend.onAdd = function (map) {
 
 legend.addTo(myMap)
 
+
 // changes color based on depth
 function depthColor(depth){
-  if (depth > 10) {
-    color = "red";
-  }
-  else if (depth > 5 ){
-    color = "yellow";
-  }
+    if (depth > 10) {
+      color = "red";
+    }
+    else if (depth > 5 ){
+      color = "yellow";
+    }
 
-  else {
-    color = "green"
-  }
+    else {
+      color = "green"
+    }
 
-return color;
+  return color;
 }
+
