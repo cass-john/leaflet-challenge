@@ -7,7 +7,7 @@
   }
 
  // Define streetmap and darkmap layers, these are coming from mapbox
- var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+ var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
     tileSize: 512,
     maxZoom: 18,
@@ -110,4 +110,39 @@ d3.json(url, function(data){
   faultlines.addTo(myMap);
 });
 
+var legend = L.control({position: 'bottomright'});
 
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0, 5, 10],
+        labels = [];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    div.innerHTML += '<h3>Legend</h3>'
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + depthColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+
+    return div;
+};
+
+legend.addTo(myMap)
+
+// changes color based on depth
+function depthColor(depth){
+  if (depth > 10) {
+    color = "red";
+  }
+  else if (depth > 5 ){
+    color = "yellow";
+  }
+
+  else {
+    color = "green"
+  }
+
+return color;
+}
