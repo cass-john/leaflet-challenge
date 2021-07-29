@@ -66,3 +66,48 @@ L.control.layers(baseMaps, overlayMaps, {
 // bring in our data
 var queryUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=" +
   "2014-01-02&maxlongitude=-69.52148437&minlongitude=-123.83789062&maxlatitude=48.74894534&minlatitude=25.16517337";  
+
+// Perform a GET request to the query URL
+d3.json(queryUrl, function(data) {
+  // Once we get a response, send the data.features object to the createFeatures function
+
+  // Create a GeoJSON layer containing the features array on the earthquakeData object, then make markers circles, size them and change color
+  L.geoJSON(data, {
+    onEachFeature: popUpMsg,
+    pointToLayer: function(feature, latlng) {  
+      return new L.CircleMarker(latlng, {
+        radius: feature.properties.mag * 10, 
+        color: depthColor (feature.geometry.coordinates[2]),
+        fillOpacity: 0.85
+      });
+    }
+
+
+  }).addTo(earthquakes);
+
+
+  earthquakes.addTo(myMap);
+});
+
+
+// Add faultlines
+url = 'https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json'
+d3.json(url, function(data){
+  // Once we get a response, send the data.features object to the createFeatures function
+
+  // Create a GeoJSON layer containing the faultlines object
+  L.geoJSON(data,{
+    style: function(){
+      return {
+        color: "red",
+        weight: "1.5",
+        opacity: 0.8
+      };
+  }}
+  ).addTo(faultlines);
+    
+
+  faultlines.addTo(myMap);
+});
+
+
